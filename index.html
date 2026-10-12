@@ -1,0 +1,1245 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frases Interactivas con Pronunciación en Inglés</title>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --accent: #6c5ce7;
+    --accent-2: #00b894;
+    --beginner: #00b894;
+    --medium: #f39c12;
+    --advanced: #6c5ce7;
+    --expert: #d63031;
+    --border: #e0e0e0;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --check-bg: #f9f9fc;
+    --word-bg: #eef6ff;
+    --word-hover: #d4e8ff;
+    --word-active: #a8d3ff;
+    --vocab-bg: #eef6ff;
+    --grammar-bg: #fff8e1;
+    --pron-bg: #f0fdf4;
+    --note-bg: #fdf2f8;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f17;
+    --card: #1a1a25;
+    --text: #eaeaea;
+    --text-soft: #a0a0b0;
+    --accent: #a29bfe;
+    --accent-2: #55efc4;
+    --beginner: #55efc4;
+    --medium: #fdcb6e;
+    --advanced: #a29bfe;
+    --expert: #ff7675;
+    --border: #2a2a3a;
+    --shadow: 0 4px 20px rgba(0,0,0,0.5);
+    --check-bg: #202030;
+    --word-bg: #1c2733;
+    --word-hover: #2a3a4a;
+    --word-active: #3a4a5a;
+    --vocab-bg: #1c2733;
+    --grammar-bg: #332e1a;
+    --pron-bg: #1a3329;
+    --note-bg: #2d1f2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 80px;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  header h1 {
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .theme-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.2s;
+    font-family: inherit;
+  }
+  .theme-btn:hover { transform: scale(1.05); }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .intro h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+  .intro p { color: var(--text-soft); margin-bottom: 0.75rem; font-size: 0.95rem; }
+
+  .legend {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+  }
+  .legend span {
+    padding: 0.25rem 0.7rem;
+    border-radius: 50px;
+    color: white;
+    font-weight: 700;
+  }
+  .legend .beg { background: var(--beginner); color: #000; }
+  .legend .med { background: var(--medium); color: #000; }
+  .legend .adv { background: var(--advanced); }
+  .legend .exp { background: var(--expert); }
+
+  .tips-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-2);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+  }
+  .tips-box h3 {
+    color: var(--accent-2);
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+  }
+  .tips-box ul {
+    margin-left: 1.2rem;
+    color: var(--text-soft);
+  }
+  .tips-box li { margin-bottom: 0.3rem; }
+
+  .progress-bar {
+    background: var(--border);
+    height: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+  }
+  .progress-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s;
+    width: 0%;
+  }
+  #progressTxt {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    font-weight: 600;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .search-box:focus { outline: 2px solid var(--accent); }
+
+  .filter-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .filter-row button {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-row button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .filter-row button:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .filter-row button.active[data-level="beginner"] { background: var(--beginner); border-color: var(--beginner); color: #000; }
+  .filter-row button.active[data-level="medium"] { background: var(--medium); border-color: var(--medium); color: #000; }
+  .filter-row button.active[data-level="advanced"] { background: var(--advanced); border-color: var(--advanced); }
+  .filter-row button.active[data-level="expert"] { background: var(--expert); border-color: var(--expert); }
+
+  .level-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 2rem 0 0.4rem;
+    padding-left: 0.6rem;
+    border-left: 5px solid;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .level-title.beginner { color: var(--beginner); border-color: var(--beginner); }
+  .level-title.medium { color: var(--medium); border-color: var(--medium); }
+  .level-title.advanced { color: var(--advanced); border-color: var(--advanced); }
+  .level-title.expert { color: var(--expert); border-color: var(--expert); }
+
+  .level-desc {
+    color: var(--text-soft);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+    padding-left: 0.7rem;
+    font-style: italic;
+  }
+
+  /* Tarjeta de frase */
+  .sentence-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: border-color 0.25s;
+  }
+  .sentence-card:hover { border-color: var(--accent); }
+  .sentence-card.learned {
+    background: var(--check-bg);
+    border-color: var(--accent-2);
+  }
+
+  .sentence-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .sentence-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .sentence-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+
+  .sentence-check {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--bg);
+    padding: 0.25rem 0.65rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .sentence-check label {
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .sentence-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent-2);
+  }
+
+  /* Controles de audio de la frase completa */
+  .audio-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.85rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--check-bg);
+    border-radius: 12px;
+    border: 1px dashed var(--border);
+  }
+  .audio-controls .label {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: center;
+    margin-right: 0.35rem;
+  }
+  .audio-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .audio-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .audio-btn.slow { background: var(--accent-2); color: #000; }
+  .audio-btn.normal { background: var(--accent); }
+  .audio-btn.fast { background: var(--beginner); color: #000; }
+
+  /* Frase interactiva */
+  .sentence-interactive {
+    background: var(--word-bg);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 0.85rem;
+    border-left: 4px solid var(--accent);
+    font-size: 1.15rem;
+    line-height: 2.2;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .word {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    margin: 0.15rem 0.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    font-weight: 600;
+    position: relative;
+  }
+  .word:hover {
+    background: var(--word-hover);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .word.active {
+    background: var(--word-active);
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+  .word.speaking {
+    animation: pulse 0.6s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1.05); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Popup de palabra */
+  .word-popup {
+    background: var(--check-bg);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.85rem;
+    border-left: 4px solid var(--accent-2);
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+  .word-popup.show {
+    display: block;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .word-popup .wp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .word-popup .wp-word {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .word-popup .wp-ipa {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    font-family: "Courier New", monospace;
+    background: var(--bg);
+    padding: 0.15rem 0.55rem;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+  }
+  .word-popup .wp-pron {
+    font-size: 0.85rem;
+    color: var(--accent-2);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .word-popup .wp-pron::before {
+    content: "🔤 Pronunciación figurada: ";
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .word-popup .wp-meaning {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .word-popup .wp-meaning strong {
+    color: var(--accent-2);
+  }
+  .word-popup .wp-example {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    font-style: italic;
+    padding-top: 0.4rem;
+    border-top: 1px dashed var(--border);
+    margin-top: 0.4rem;
+  }
+  .word-popup .wp-example::before {
+    content: "📝 Otro ejemplo: ";
+    font-weight: 700;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* Secciones explicativas */
+  .section-block {
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid;
+    font-size: 0.9rem;
+  }
+  .section-block h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .grammar-block { background: var(--grammar-bg); border-color: var(--medium); }
+  .grammar-block h4 { color: var(--medium); }
+  .grammar-block ul { margin-left: 1.2rem; color: var(--text-soft); font-size: 0.87rem; }
+  .grammar-block li { margin-bottom: 0.3rem; }
+  .grammar-block code {
+    background: var(--card);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+  .grammar-block strong { color: var(--text); }
+
+  .pron-block { background: var(--pron-bg); border-color: var(--accent-2); }
+  .pron-block h4 { color: var(--accent-2); }
+  .pron-block ul { margin-left: 1.2rem; color: var(--text-soft); font-size: 0.87rem; }
+  .pron-block li { margin-bottom: 0.3rem; }
+  .pron-block code {
+    background: var(--card);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+
+  .note-block { background: var(--note-bg); border-color: var(--accent); }
+  .note-block h4 { color: var(--accent); }
+  .note-block p { color: var(--text-soft); font-size: 0.87rem; }
+  .note-block strong { color: var(--text); }
+  .note-block code {
+    background: var(--card);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+    margin-top: 2rem;
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  footer a:hover {
+    color: var(--accent-2);
+    text-decoration: underline;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-soft);
+    padding: 2rem;
+    font-style: italic;
+  }
+
+  /* Nota sobre compatibilidad */
+  .compat-warn {
+    display: none;
+    background: #ffe9e9;
+    color: #b12a2a;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border-left: 4px solid #d63031;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+  }
+  [data-theme="dark"] .compat-warn {
+    background: #332020;
+    color: #ff8a8a;
+  }
+  .compat-warn.show { display: block; }
+
+  @media (max-width: 640px) {
+    header h1 { font-size: 0.95rem; }
+    .intro h2 { font-size: 1.1rem; }
+    main { padding: 1rem; }
+    .sentence-interactive { font-size: 1rem; line-height: 2; padding: 0.85rem; }
+    .word { padding: 0.1rem 0.4rem; margin: 0.1rem; }
+    .section-block { font-size: 0.85rem; padding: 0.75rem 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔊 Frases Interactivas con Pronunciación</h1>
+  <button class="theme-btn" id="themeToggle">🌙 Modo Oscuro</button>
+</header>
+
+<main>
+
+  <div class="compat-warn" id="compatWarn">
+    ⚠️ Tu navegador no soporta la síntesis de voz. Prueba con Chrome, Edge o Safari actualizados para escuchar la pronunciación.
+  </div>
+
+  <div class="intro">
+    <h2>Haz clic en cualquier palabra para escuchar su pronunciación</h2>
+    <p>Cada palabra es interactiva: al hacer clic, escucharás su pronunciación, verás su significado, su <strong>pronunciación figurada</strong> (cómo suena en español) y otro ejemplo extra. También puedes escuchar la <strong>frase completa</strong> a 3 velocidades.</p>
+    <div class="legend">
+      <span class="beg">🟢 Principiante</span>
+      <span class="med">🟡 Medio</span>
+      <span class="adv">🟣 Avanzado</span>
+      <span class="exp">🔴 Experto</span>
+    </div>
+    <div class="progress-bar" style="margin-top:1rem;"><div id="progressBar"></div></div>
+    <p id="progressTxt">0 de 0 frases dominadas</p>
+  </div>
+
+  <div class="tips-box">
+    <h3>💡 Cómo aprovechar esta página</h3>
+    <ul>
+      <li><strong>Toca cada palabra</strong> varias veces para memorizar su sonido.</li>
+      <li>Escucha la <strong>frase completa lenta</strong> primero, después normal, luego rápida.</li>
+      <li>Repite en voz alta <strong>imitando la pronunciación</strong> que escuchas.</li>
+      <li>Lee la <strong>pronunciación figurada</strong> solo como apoyo: no es exacta, pero ayuda.</li>
+      <li>Marca ✓ cuando puedas decir la frase <strong>sin mirar</strong>.</li>
+    </ul>
+  </div>
+
+  <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar frase o palabra...">
+
+  <div class="filter-row" id="levelFilters">
+    <button class="active" data-level="all">Todos los niveles</button>
+    <button data-level="beginner">🟢 Principiante</button>
+    <button data-level="medium">🟡 Medio</button>
+    <button data-level="advanced">🟣 Avanzado</button>
+    <button data-level="expert">🔴 Experto</button>
+  </div>
+
+  <div id="sentencesContainer"></div>
+
+</main>
+
+<footer>
+  <a href="https://jaid227.github.io/EntropiaDigital/" target="_blank" rel="noopener">
+    → © 2026 Mandrágora Entrópica | Desarrollo Web Estratégico ←
+  </a>
+</footer>
+
+<script>
+// ============ DATOS: FRASES CON PALABRAS ============
+// Cada palabra: { w: palabra, es: significado, pron: pronunciación figurada, ex: ejemplo extra }
+// La frase se construye uniendo las palabras (con espacios)
+
+const frases = [
+
+  // ==================== 🟢 PRINCIPIANTE ====================
+  {
+    level: "beginner",
+    title: "Greeting a friend",
+    subtitle: "Saludar a un amigo",
+    words: [
+      { w: "Hello", es: "Hola", pron: "jelóu", ex: "Hello, how are you?" },
+      { w: "my", es: "mi", pron: "mái", ex: "This is my house." },
+      { w: "friend", es: "amigo/a", pron: "frend", ex: "She is my best friend." },
+      { w: "how", es: "cómo", pron: "jáu", ex: "How do you do it?" },
+      { w: "are", es: "eres / estás", pron: "ar", ex: "You are kind." },
+      { w: "you", es: "tú / usted", pron: "iú", ex: "You are welcome." }
+    ],
+    grammar: [
+      "**<em>Hello</em>** es el saludo más universal en inglés. Sirve para cualquier contexto.",
+      "**<em>my</em>** es un adjetivo posesivo. En inglés **siempre va antes del sustantivo**: <code>my friend</code>, no <em>friend my</em>.",
+      "**<em>How are you?</em>** es una pregunta fija. No se contesta con la traducción literal; se responde con <code>I'm fine</code>, <code>Good</code>, <code>Not bad</code>, etc."
+    ],
+    pronunciation: [
+      "**Hello** → la H es aspirada suave, como si empañaras un vidrio.",
+      "**Friend** → la vocal doble <code>ie</code> suena como una <em>e</em> corta, no como 'friend' literal.",
+      "**You** → suena como <em>iu</em>, con la lengua cerca del paladar."
+    ],
+    note: "En inglés informal, <em>Hello</em> se acorta a <strong>Hi</strong>. En contextos muy coloquiales, <strong>Hey</strong> también funciona, pero puede sonar más insistente."
+  },
+  {
+    level: "beginner",
+    title: "Asking for water",
+    subtitle: "Pedir agua",
+    words: [
+      { w: "Can", es: "puedo / puedes", pron: "kan", ex: "Can I help you?" },
+      { w: "I", es: "yo", pron: "ái", ex: "I am happy." },
+      { w: "have", es: "tener", pron: "jav", ex: "I have a dog." },
+      { w: "some", es: "algo de / un poco de", pron: "sam", ex: "I need some sugar." },
+      { w: "water", es: "agua", pron: "uóter", ex: "Drink more water." },
+      { w: "please", es: "por favor", pron: "plis", ex: "Please, sit down." }
+    ],
+    grammar: [
+      "**<em>Can I...?</em>** es la estructura básica para **pedir permiso o pedir algo** educadamente.",
+      "**<em>Some</em>** se usa con sustantivos incontables (agua, pan, dinero) para indicar 'un poco de'.",
+      "**<em>Please</em>** se coloca al final para sonar educado: <code>Can I have some water, please?</code>"
+    ],
+    pronunciation: [
+      "**Can** → suena corto, como <em>kan</em>, no como 'ken'.",
+      "**Water** → en inglés americano suena <em>uóder</em> (la T se suaviza). En británico es más marcada.",
+      "**Please** → la <code>ea</code> suena como <em>i</em> larga: <em>pliis</em>."
+    ],
+    note: "En inglés, **pedir sin <em>please</em> suena rudo**. Incluso con amigos, se usa mucho. Añadirlo al final es la forma más sencilla de sonar cortés."
+  },
+  {
+    level: "beginner",
+    title: "Talking about your day",
+    subtitle: "Hablar sobre tu día",
+    words: [
+      { w: "I", es: "yo", pron: "ái", ex: "I am tired." },
+      { w: "went", es: "fui (pasado de go)", pron: "uent", ex: "She went home." },
+      { w: "to", es: "a / hacia", pron: "tu", ex: "I go to school." },
+      { w: "the", es: "el / la / los / las", pron: "de (o di)", ex: "The book is red." },
+      { w: "park", es: "parque", pron: "park", ex: "The park is beautiful." },
+      { w: "with", es: "con", pron: "uid", ex: "Come with me." },
+      { w: "my", es: "mi", pron: "mái", ex: "My mom is kind." },
+      { w: "family", es: "familia", pron: "fámili", ex: "Family is important." }
+    ],
+    grammar: [
+      "**<em>Went</em>** es el pasado irregular de <em>go</em>. No se dice <em>goed</em> ❌.",
+      "**<em>To the</em>** es una combinación muy común: <code>to the park</code>, <code>to the store</code>.",
+      "**<em>With</em>** siempre va antes del complemento: <code>with my family</code>, no <em>my family with</em>."
+    ],
+    pronunciation: [
+      "**Went** → la W suena como una <em>u</em> muy breve, casi sin vocal.",
+      "**The** → antes de consonante suena <em>de</em>; antes de vocal suena <em>di</em>.",
+      "**Family** → tres sílabas, con acento en la primera: <em>FÁ-mi-li</em>."
+    ],
+    note: "El pasado de **go** (<em>went</em>) es uno de los irregulares más usados del inglés. Lo vas a escuchar a diario en cualquier conversación."
+  },
+
+  // ==================== 🟡 MEDIO ====================
+  {
+    level: "medium",
+    title: "Ordering at a restaurant",
+    subtitle: "Pedir en un restaurante",
+    words: [
+      { w: "I", es: "yo", pron: "ái", ex: "I would like a table." },
+      { w: "would", es: "querría (condicional)", pron: "uud", ex: "I would travel if I could." },
+      { w: "like", es: "querer / gustar", pron: "láik", ex: "I like tea." },
+      { w: "to", es: "a (partícula del infinitivo)", pron: "tu", ex: "I want to eat." },
+      { w: "order", es: "pedir / ordenar", pron: "órder", ex: "Are you ready to order?" },
+      { w: "the", es: "el / la", pron: "de", ex: "The bill, please." },
+      { w: "grilled", es: "a la parrilla", pron: "grild", ex: "Grilled chicken, please." },
+      { w: "chicken", es: "pollo", pron: "chíken", ex: "I love chicken." },
+      { w: "salad", es: "ensalada", pron: "sálad", ex: "A fresh salad, please." }
+    ],
+    grammar: [
+      "**<em>I would like...</em>** es la forma educada de pedir. Es más formal que <em>I want</em>.",
+      "**<em>Would like to + verbo</em>** significa 'me gustaría...': <code>I would like to order</code>.",
+      "**Contracción:** <code>I'd like</code> es la forma más común en conversación."
+    ],
+    pronunciation: [
+      "**Would** → la L es muda. Se pronuncia como <em>uud</em>, casi 'ud'.",
+      "**Grilled** → la <code>-ed</code> suena como <em>d</em>, no como 'ed' completo.",
+      "**Chicken** → la <code>ch</code> suena como en español; el acento va en la primera sílaba: <em>CHÍ-ken</em>."
+    ],
+    note: "**<em>I'd like</em>** y **<em>I want</em>** significan lo mismo, pero el primero es mucho más educado. En restaurantes, tiendas y aeropuertos, siempre se usa <em>I'd like</em>."
+  },
+  {
+    level: "medium",
+    title: "Talking about the weekend",
+    subtitle: "Hablar del fin de semana",
+    words: [
+      { w: "What", es: "qué", pron: "uát", ex: "What is your name?" },
+      { w: "did", es: "auxiliar del pasado", pron: "did", ex: "Did you call me?" },
+      { w: "you", es: "tú / usted", pron: "iú", ex: "You are welcome." },
+      { w: "do", es: "hacer", pron: "du", ex: "What do you do?" },
+      { w: "last", es: "pasado / último", pron: "last", ex: "Last week I traveled." },
+      { w: "weekend", es: "fin de semana", pron: "uíkend", ex: "Have a nice weekend!" },
+      { w: "I", es: "yo", pron: "ái", ex: "I stayed home." },
+      { w: "watched", es: "vi (miré)", pron: "uácht", ex: "I watched a movie." },
+      { w: "movies", es: "películas", pron: "múvis", ex: "I love old movies." }
+    ],
+    grammar: [
+      "**<em>What did you do...?</em>** es la fórmula fija para preguntar por acciones pasadas.",
+      "**<em>Did</em>** es el auxiliar del pasado simple. Después de <em>did</em>, el verbo va en forma base: <code>What did you do?</code> ✅ (no <em>did you did</em>).",
+      "**<em>Last weekend / last week / last month</em>:** expresiones de tiempo pasado."
+    ],
+    pronunciation: [
+      "**What** → la W suena como <em>u</em>, la T casi muda: <em>uát</em>.",
+      "**Did you** → en habla rápida suena como <em>diyu</em> o <em>diyá</em>.",
+      "**Watched** → la <code>-ed</code> se pronuncia como <em>t</em>, no como 'ed'."
+    ],
+    note: "Cuando el verbo termina en sonido sordo (<em>k, p, s, ch, sh, f</em>), la <code>-ed</code> del pasado suena como <strong>t</strong>: <em>watched → uácht</em>, <em>stopped → stopt</em>."
+  },
+  {
+    level: "medium",
+    title: "Making plans with a friend",
+    subtitle: "Hacer planes con un amigo",
+    words: [
+      { w: "Would", es: "querrías (condicional)", pron: "uud", ex: "Would you like tea?" },
+      { w: "you", es: "tú", pron: "iú", ex: "You can come." },
+      { w: "like", es: "gustar / querer", pron: "láik", ex: "I like pizza." },
+      { w: "to", es: "partícula del infinitivo", pron: "tu", ex: "I want to go." },
+      { w: "grab", es: "tomar / agarrar (informal)", pron: "grab", ex: "Let's grab a bite." },
+      { w: "a", es: "un / una", pron: "e (o ei)", ex: "A coffee, please." },
+      { w: "coffee", es: "café", pron: "kófi", ex: "I drink coffee daily." },
+      { w: "sometime", es: "algún día / en algún momento", pron: "sámtaim", ex: "Let's meet sometime." }
+    ],
+    grammar: [
+      "**<em>Would you like to + verbo?</em>** es la forma más natural de **invitar** a alguien.",
+      "**<em>Grab</em>** literalmente significa 'agarrar', pero en este contexto significa **'tomar algo juntos'** (café, comida).",
+      "**<em>Sometime</em>** (una sola palabra) significa 'algún día'. <em>Some time</em> (dos palabras) significa 'un poco de tiempo'. ¡Son diferentes!"
+    ],
+    pronunciation: [
+      "**Would you** → en habla rápida suena <em>uudyu</em> (casi una sola palabra).",
+      "**Coffee** → la doble F suena como F fuerte, y el acento va en la primera sílaba.",
+      "**Grab a** → en habla natural suena <em>graba</em>, casi pegado."
+    ],
+    note: "**<em>Let's grab a coffee sometime</em>** es la frase más natural para invitar a alguien en inglés moderno. Es informal y amistosa, perfecta para conocidos y amigos."
+  },
+
+  // ==================== 🟣 AVANZADO ====================
+  {
+    level: "advanced",
+    title: "Expressing disagreement politely",
+    subtitle: "Expresar desacuerdo educadamente",
+    words: [
+      { w: "I", es: "yo", pron: "ái", ex: "I see your point." },
+      { w: "see", es: "ver / entender", pron: "si", ex: "I see what you mean." },
+      { w: "your", es: "tu / su", pron: "ior", ex: "Your idea is good." },
+      { w: "point", es: "punto / argumento", pron: "póint", ex: "That's a fair point." },
+      { w: "but", es: "pero", pron: "bat", ex: "But I disagree." },
+      { w: "I", es: "yo", pron: "ái", ex: "I beg to differ." },
+      { w: "respectfully", es: "respetuosamente", pron: "res-péct-fuli", ex: "I respectfully disagree." },
+      { w: "disagree", es: "estar en desacuerdo", pron: "disa-grí", ex: "I disagree with you." }
+    ],
+    grammar: [
+      "**<em>I see your point, but...</em>** es una fórmula muy usada para **suavizar un desacuerdo**.",
+      "**<em>Respectfully</em>** es un adverbio. Modifica al verbo <code>disagree</code>.",
+      "**<em>I beg to differ</em>** es una expresión formal y elegante para decir 'no estoy de acuerdo'."
+    ],
+    pronunciation: [
+      "**Your** → suena como <em>ior</em>, no como 'yur'.",
+      "**Respectfully** → el acento cae en <em>PEC</em>: <em>res-PÉCT-fuli</em>.",
+      "**Disagree** → el acento cae en la última sílaba: <em>disa-GRÍ</em>."
+    ],
+    note: "En inglés profesional, **nunca digas simplemente <em>'You're wrong'</em>**. Suena agresivo. Se prefiere: <em>I see it differently</em>, <em>I have a different perspective</em>, o <em>I see your point, but...</em>"
+  },
+  {
+    level: "advanced",
+    title: "Talking about experiences",
+    subtitle: "Hablar de experiencias vividas",
+    words: [
+      { w: "I", es: "yo", pron: "ái", ex: "I have traveled a lot." },
+      { w: "have", es: "he (auxiliar)", pron: "jav", ex: "I have seen it." },
+      { w: "never", es: "nunca", pron: "néver", ex: "I have never been there." },
+      { w: "been", es: "estado (participio de be)", pron: "bin", ex: "I have been to Paris." },
+      { w: "to", es: "a / hacia", pron: "tu", ex: "I went to Japan." },
+      { w: "Japan", es: "Japón", pron: "yapán", ex: "Japan is beautiful." },
+      { w: "but", es: "pero", pron: "bat", ex: "But I want to go." },
+      { w: "I", es: "yo", pron: "ái", ex: "I would love to." },
+      { w: "would", es: "querría (condicional)", pron: "uud", ex: "I would go tomorrow." },
+      { w: "love", es: "encantar / amar", pron: "lav", ex: "I love traveling." }
+    ],
+    grammar: [
+      "**<em>I have been to...</em>** indica que has **visitado** un lugar en algún momento de tu vida.",
+      "**<em>Never</em>** se coloca **entre <em>have</em> y el participio**: <code>I have never been</code>. No se dice <em>I never have been</em> (menos común).",
+      "**<em>Would love to</em>** es una forma muy educada de decir que te encantaría hacer algo."
+    ],
+    pronunciation: [
+      "**Have** → en habla rápida se reduce a <em>'ve</em>: <em>I've been</em>.",
+      "**Been** → dos pronunciaciones válidas: <em>bin</em> (USA) o <em>biin</em> (UK).",
+      "**Japan** → la J suena como 'y' en español, no como 'j' fuerte."
+    ],
+    note: "**<em>I have been to Japan</em>** = he visitado Japón (en algún momento). **<em>I have gone to Japan</em>** = me fui a Japón (y todavía estoy allí o de camino). Esta diferencia es sutil pero importante."
+  },
+  {
+    level: "advanced",
+    title: "Giving advice with conditionals",
+    subtitle: "Dar consejos con condicionales",
+    words: [
+      { w: "If", es: "si (condicional)", pron: "if", ex: "If it rains, stay home." },
+      { w: "I", es: "yo", pron: "ái", ex: "I would study more." },
+      { w: "were", es: "fuera / estuviera (subjuntivo)", pron: "uer", ex: "If I were you..." },
+      { w: "you", es: "tú", pron: "iú", ex: "If I were you, I'd call." },
+      { w: "I", es: "yo", pron: "ái", ex: "I'd apologize." },
+      { w: "would", es: "verbo condicional", pron: "uud", ex: "I would help." },
+      { w: "apologize", es: "disculparse", pron: "apólo-yaiz", ex: "You should apologize." },
+      { w: "right", es: "ahora mismo / correcto", pron: "ráit", ex: "Come right now." },
+      { w: "away", es: "inmediatamente / lejos", pron: "auéi", ex: "Do it right away." }
+    ],
+    grammar: [
+      "**<em>If I were you...</em>** es una fórmula fija para dar consejos. Se usa <em>were</em> con todas las personas.",
+      "**<em>I would + verbo</em>** es la continuación del condicional: <code>If I were you, I would apologize</code>.",
+      "**<em>Right away</em>** significa 'inmediatamente'. Es muy común en inglés americano."
+    ],
+    pronunciation: [
+      "**Were** → suena como <em>uer</em>, no como 'were' literal.",
+      "**Apologize** → el acento cae en <em>PO</em>: <em>a-PÓ-lo-yaiz</em>.",
+      "**Right away** → en habla natural se une: <em>rait-auéi</em>."
+    ],
+    note: "**<em>If I were you</em>** es una de las estructuras más útiles del inglés. En español sería 'yo en tu lugar...'. Se usa para dar consejos sin sonar impositivo."
+  },
+
+  // ==================== 🔴 EXPERTO ====================
+  {
+    level: "expert",
+    title: "Debating an idea",
+    subtitle: "Debatir una idea",
+    words: [
+      { w: "While", es: "mientras / aunque", pron: "uáil", ex: "While I agree, I see limits." },
+      { w: "I", es: "yo", pron: "ái", ex: "I understand the concern." },
+      { w: "acknowledge", es: "reconocer", pron: "aknólej", ex: "I acknowledge your point." },
+      { w: "the", es: "el / la", pron: "de", ex: "The issue is complex." },
+      { w: "merits", es: "méritos / ventajas", pron: "mérits", ex: "The plan has merits." },
+      { w: "of", es: "de", pron: "ov", ex: "The cost of living." },
+      { w: "your", es: "tu / su", pron: "ior", ex: "Your argument is strong." },
+      { w: "argument", es: "argumento", pron: "árguiu-ment", ex: "That's a weak argument." },
+      { w: "I", es: "yo", pron: "ái", ex: "I still have doubts." },
+      { w: "remain", es: "permanecer / seguir", pron: "riméin", ex: "I remain unconvinced." },
+      { w: "unconvinced", es: "no convencido", pron: "ankon-vínst", ex: "She remains unconvinced." }
+    ],
+    grammar: [
+      "**<em>While I acknowledge X, I remain Y</em>:** estructura formal para matizar un argumento.",
+      "**<em>Acknowledge</em>** es más formal que <em>accept</em>. Implica reconocer algo sin necesariamente estar de acuerdo.",
+      "**<em>Remain</em>** es más formal que <em>stay</em> o <em>still be</em>."
+    ],
+    pronunciation: [
+      "**Acknowledge** → la <code>ck</code> suena como K fuerte: <em>ak-NÓ-lej</em>.",
+      "**Merits** → la <code>e</code> suena como <em>e</em> corta: <em>MÉ-rits</em>.",
+      "**Unconvinced** → el acento cae en <em>VINCED</em>: <em>an-con-VÍNST</em>."
+    ],
+    note: "Este tipo de estructura es típica de **debates académicos** o **reuniones de trabajo**. Suena culto, pero no agresivo. Es la forma elegante de decir 'entiendo tu punto, pero no me convences'."
+  },
+  {
+    level: "expert",
+    title: "Hedging in professional English",
+    subtitle: "Suavizar opiniones en inglés profesional",
+    words: [
+      { w: "It", es: "ello / eso", pron: "it", ex: "It seems reasonable." },
+      { w: "seems", es: "parece", pron: "sims", ex: "It seems correct." },
+      { w: "that", es: "que (conjunción)", pron: "dat", ex: "I think that..." },
+      { w: "there", es: "hay / allí", pron: "der", ex: "There may be issues." },
+      { w: "might", es: "podría (posibilidad)", pron: "máit", ex: "It might rain." },
+      { w: "be", es: "ser / estar", pron: "bi", ex: "It might be true." },
+      { w: "some", es: "algunos / algo de", pron: "sam", ex: "Some issues remain." },
+      { w: "potential", es: "potencial", pron: "poténshal", ex: "There is potential risk." },
+      { w: "issues", es: "problemas / asuntos", pron: "íshus", ex: "We need to solve issues." },
+      { w: "with", es: "con", pron: "uid", ex: "Deal with problems." },
+      { w: "the", es: "el / la", pron: "de", ex: "The proposal is good." },
+      { w: "proposal", es: "propuesta", pron: "propóusal", ex: "The proposal was accepted." }
+    ],
+    grammar: [
+      "**<em>It seems that...</em>** es una fórmula de **hedging** (suavizar opiniones). Es más educada que <em>It is</em>.",
+      "**<em>There might be...</em>** indica posibilidad, no certeza. Muy usado en contextos profesionales.",
+      "**<em>Potential</em>** se usa como adjetivo antes del sustantivo: <code>potential issues</code>, no <em>issues potential</em>."
+    ],
+    pronunciation: [
+      "**Seems** → la doble E suena como <em>ii</em>: <em>siims</em>.",
+      "**Potential** → el acento cae en <em>TEN</em>: <em>po-TÉN-shal</em>.",
+      "**Issues** → la doble S suena como SH suave: <em>Í-shus</em>."
+    ],
+    note: "**<em>Hedging</em>** es una técnica clave del inglés profesional: nunca afirmar algo con demasiada fuerza. Se usan verbos como <em>seem</em>, <em>appear</em>, <em>suggest</em>, <em>tend to</em>, y modales como <em>might</em>, <em>could</em>, <em>may</em>."
+  },
+  {
+    level: "expert",
+    title: "Discussing trade-offs",
+    subtitle: "Hablar de compensaciones y disyuntivas",
+    words: [
+      { w: "Every", es: "cada", pron: "évri", ex: "Every choice has costs." },
+      { w: "decision", es: "decisión", pron: "disíshon", ex: "It was a tough decision." },
+      { w: "involves", es: "implica / conlleva", pron: "in-vólvs", ex: "It involves risk." },
+      { w: "a", es: "un / una", pron: "e", ex: "A trade-off is normal." },
+      { w: "trade-off", es: "compensación / disyuntiva", pron: "tréid-of", ex: "Speed vs quality is a trade-off." },
+      { w: "between", es: "entre", pron: "bit-uín", ex: "Between you and me." },
+      { w: "what", es: "qué / lo que", pron: "uát", ex: "What matters is focus." },
+      { w: "we", es: "nosotros", pron: "ui", ex: "We need to choose." },
+      { w: "gain", es: "ganar / obtener", pron: "guéin", ex: "We gain experience." },
+      { w: "and", es: "y", pron: "and", ex: "Time and money." },
+      { w: "what", es: "qué / lo que", pron: "uát", ex: "What we lose matters." },
+      { w: "we", es: "nosotros", pron: "ui", ex: "We sacrifice comfort." },
+      { w: "sacrifice", es: "sacrificar", pron: "sákrifais", ex: "They sacrifice time." }
+    ],
+    grammar: [
+      "**<em>Every decision involves...</em>** — estructura formal y generalizadora.",
+      "**<em>A trade-off between X and Y</em>:** fórmula fija para describir disyuntivas.",
+      "**<em>What we gain... and what we sacrifice...</em>:** estructura paralela para dar énfasis."
+    ],
+    pronunciation: [
+      "**Decision** → la <code>s</code> intervocálica suena como <em>sh</em> suave en muchas variantes: <em>di-SÍ-shon</em>.",
+      "**Trade-off** → se pronuncia casi junto: <em>tréi-dof</em>.",
+      "**Sacrifice** → el acento cae en <em>SÁ</em>: <em>SÁ-kri-fais</em>."
+    ],
+    note: "**<em>Trade-off</em>** es una palabra clave en inglés profesional, economía y toma de decisiones. No tiene una traducción perfecta al español, pero 'compensación' o 'disyuntiva' se acercan."
+  }
+];
+
+// ============ ESTADO ============
+let dominadas = JSON.parse(localStorage.getItem('frasesInteractivasDominadas') || '[]');
+let filtroNivel = 'all';
+let busqueda = '';
+
+// ============ TEMA ============
+const themeBtn = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeBtn.textContent = savedTheme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+
+themeBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeBtn.textContent = next === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+});
+
+// ============ VERIFICAR SOPORTE ============
+const supportsTTS = 'speechSynthesis' in window;
+if (!supportsTTS) {
+  document.getElementById('compatWarn').classList.add('show');
+}
+
+// ============ VOZ ============
+let voices = [];
+let preferredVoice = null;
+
+function loadVoices() {
+  if (!supportsTTS) return;
+  voices = speechSynthesis.getVoices();
+  // Buscar voz en inglés
+  const enVoices = voices.filter(v => v.lang.startsWith('en'));
+  // Preferir voces nativas (US, UK, etc.)
+  preferredVoice =
+    enVoices.find(v => v.lang === 'en-US' && v.name.includes('Google')) ||
+    enVoices.find(v => v.lang === 'en-US') ||
+    enVoices.find(v => v.lang.startsWith('en')) ||
+    null;
+}
+
+if (supportsTTS) {
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speak(text, rate = 1) {
+  if (!supportsTTS) return;
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  utterance.rate = rate;
+  utterance.pitch = 1;
+  if (preferredVoice) utterance.voice = preferredVoice;
+  speechSynthesis.speak(utterance);
+}
+
+// ============ HELPERS ============
+const levelNames = {
+  beginner: { title: "🟢 Nivel Principiante", desc: "Frases simples del día a día con vocabulario básico." },
+  medium: { title: "🟡 Nivel Medio", desc: "Frases para situaciones cotidianas y expresiones naturales." },
+  advanced: { title: "🟣 Nivel Avanzado", desc: "Frases para dar opiniones, hablar de experiencias y condicionales." },
+  expert: { title: "🔴 Nivel Experto", desc: "Frases de registro formal, debate y contexto profesional." }
+};
+
+// ============ RENDER ============
+const container = document.getElementById('sentencesContainer');
+
+function render() {
+  container.innerHTML = '';
+  const q = busqueda.toLowerCase();
+
+  const filtradas = frases.filter(f => {
+    const matchLevel = filtroNivel === 'all' || f.level === filtroNivel;
+    const matchSearch = !q ||
+      f.title.toLowerCase().includes(q) ||
+      f.subtitle.toLowerCase().includes(q) ||
+      f.words.some(w => w.w.toLowerCase().includes(q) || w.es.toLowerCase().includes(q));
+    return matchLevel && matchSearch;
+  });
+
+  if (filtradas.length === 0) {
+    container.innerHTML = '<p class="empty">No se encontraron frases.</p>';
+    actualizarProgreso();
+    return;
+  }
+
+  const grupos = { beginner: [], medium: [], advanced: [], expert: [] };
+  filtradas.forEach(f => grupos[f.level].push(f));
+
+  Object.keys(grupos).forEach(level => {
+    if (grupos[level].length === 0) return;
+
+    const levelTitle = document.createElement('h2');
+    levelTitle.className = `level-title ${level}`;
+    levelTitle.textContent = levelNames[level].title;
+    container.appendChild(levelTitle);
+
+    const levelDesc = document.createElement('p');
+    levelDesc.className = 'level-desc';
+    levelDesc.textContent = levelNames[level].desc;
+    container.appendChild(levelDesc);
+
+    grupos[level].forEach((frase, idx) => {
+      const isLearned = dominadas.includes(frase.title);
+      const card = document.createElement('div');
+      card.className = 'sentence-card' + (isLearned ? ' learned' : '');
+
+      // Construir la frase interactiva palabra por palabra
+      const wordsHTML = frase.words.map((word, widx) => {
+        return `<span class="word" data-word="${encodeURIComponent(word.w)}" data-idx="${widx}" data-frase-idx="${level}-${idx}">${word.w}</span>`;
+      }).join(' ');
+
+      // Gramática
+      const grammarHTML = frase.grammar.map(g => {
+        const clean = g.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        return `<li>${clean}</li>`;
+      }).join('');
+
+      // Pronunciación
+      const pronHTML = frase.pronunciation.map(p => {
+        const clean = p.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        return `<li>${clean}</li>`;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="sentence-header">
+          <div>
+            <div class="sentence-title">${frase.title}</div>
+            <div class="sentence-subtitle">${frase.subtitle}</div>
+          </div>
+          <div class="sentence-check">
+            <label>Dominada</label>
+            <input type="checkbox" data-title="${encodeURIComponent(frase.title)}" ${isLearned ? 'checked' : ''}>
+          </div>
+        </div>
+
+        <div class="audio-controls">
+          <span class="label">🔊 Frase completa:</span>
+          <button class="audio-btn slow" data-text="${encodeURIComponent(frase.words.map(w => w.w).join(' '))}" data-rate="0.6">🐢 Lenta</button>
+          <button class="audio-btn normal" data-text="${encodeURIComponent(frase.words.map(w => w.w).join(' '))}" data-rate="1">▶️ Normal</button>
+          <button class="audio-btn fast" data-text="${encodeURIComponent(frase.words.map(w => w.w).join(' '))}" data-rate="1.4">⚡ Rápida</button>
+        </div>
+
+        <div class="sentence-interactive">
+          ${wordsHTML}
+        </div>
+
+        <div class="word-popup" data-popup="${level}-${idx}"></div>
+
+        <div class="section-block grammar-block">
+          <h4>📐 Explicación gramatical</h4>
+          <ul>${grammarHTML}</ul>
+        </div>
+
+        <div class="section-block pron-block">
+          <h4>🔤 Notas de pronunciación</h4>
+          <ul>${pronHTML}</ul>
+        </div>
+
+        ${frase.note ? `
+          <div class="section-block note-block">
+            <h4>💡 Nota / Tip avanzado</h4>
+            <p>${frase.note.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/<em>(.+?)<\/em>/g, '<em>$1</em>').replace(/`(.+?)`/g, '<code>$1</code>')}</p>
+          </div>
+        ` : ''}
+      `;
+
+      container.appendChild(card);
+    });
+  });
+
+  // Listeners: botones de audio de frase completa
+  container.querySelectorAll('.audio-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = decodeURIComponent(btn.dataset.text);
+      const rate = parseFloat(btn.dataset.rate);
+      speak(text, rate);
+    });
+  });
+
+  // Listeners: palabras clickeables
+  container.querySelectorAll('.word').forEach(span => {
+    span.addEventListener('click', () => {
+      const wordText = decodeURIComponent(span.dataset.word);
+      const widx = parseInt(span.dataset.idx);
+      const fraseIdx = span.dataset.fraseIdx;
+      const [level, idx] = fraseIdx.split('-');
+
+      // Encontrar la frase
+      const frase = frases.find(f => f.level === level && frases.indexOf(f) % 1 === 0);
+      // Mejor: buscar por título único
+      const allGrouped = frases.filter(f => f.level === level);
+      const fraseObj = allGrouped[parseInt(idx)];
+      if (!fraseObj) return;
+
+      const wordObj = fraseObj.words[widx];
+      if (!wordObj) return;
+
+      // Reproducir audio
+      speak(wordObj.w, 0.9);
+
+      // Marcar como activa
+      container.querySelectorAll('.word').forEach(w => w.classList.remove('active'));
+      span.classList.add('active');
+
+      // Mostrar popup
+      const popup = container.querySelector(`[data-popup="${fraseIdx}"]`);
+      if (popup) {
+        popup.innerHTML = `
+          <div class="wp-header">
+            <span class="wp-word">🔊 ${wordObj.w}</span>
+            <span class="wp-ipa">[${wordObj.pron}]</span>
+          </div>
+          <span class="wp-pron">${wordObj.pron}</span>
+          <div class="wp-meaning"><strong>Significado:</strong> ${wordObj.es}</div>
+          <div class="wp-example">${wordObj.ex}</div>
+        `;
+        popup.classList.add('show');
+      }
+    });
+  });
+
+  // Listeners: checkboxes
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const title = decodeURIComponent(e.target.dataset.title);
+      if (e.target.checked) {
+        if (!dominadas.includes(title)) dominadas.push(title);
+      } else {
+        dominadas = dominadas.filter(t => t !== title);
+      }
+      localStorage.setItem('frasesInteractivasDominadas', JSON.stringify(dominadas));
+      e.target.closest('.sentence-card').classList.toggle('learned', e.target.checked);
+      actualizarProgreso();
+    });
+  });
+
+  actualizarProgreso();
+}
+
+function actualizarProgreso() {
+  const total = frases.length;
+  const hechas = dominadas.length;
+  const pct = total ? (hechas / total) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressTxt').textContent =
+    `${hechas} de ${total} frases dominadas (${pct.toFixed(1)}%)`;
+}
+
+// ============ FILTROS ============
+document.querySelectorAll('#levelFilters button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#levelFilters button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtroNivel = btn.dataset.level;
+    render();
+  });
+});
+
+// ============ BUSCADOR ============
+document.getElementById('searchBox').addEventListener('input', (e) => {
+  busqueda = e.target.value;
+  render();
+});
+
+// ============ INIT ============
+render();
+</script>
+
+</body>
+</html>
